@@ -3,75 +3,74 @@ import java.util.List;
 
 public enum TipoPrenda {
 
-	ZAPATO(Categoria.CALZADO) {
-		@Override
-		public List<Material> materialesDisponibles() {
-			List<Material> materiales = Arrays.asList(Material.CUERO);
-			return materiales;
-		}
-		@Override
-		public List<Trama> tramasDisponibles(){
-			List<Trama> tramas = Arrays.asList(Trama.LISA);
-			return tramas;
-		}
-		
-		@Override
-		public List<Color> coloresPrimariosDisponibles(){
-			List<Color> color = Arrays.asList(new Color("#FF0000"));
-			return color;
-		}
-		
+	ZAPATO(Categoria.CALZADO, Arrays.asList(new Color("#FF0000"), new Color("#00FF00")), null,
+			Arrays.asList(Material.CUERO), Arrays.asList(Trama.LISA)),
 
-		@Override
-		public List<Color> coloresSecundariosDisponibles() {
-			List<Color> color = Arrays.asList();
-			return color;
-		}
-		
-	},
-
-	CAMISA(Categoria.SUPERIOR) {
-		@Override
-		public List<Material> materialesDisponibles() {
-			List<Material> materiales = Arrays.asList(Material.JEAN, Material.ALGODON);
-			return materiales;
-		}
-		
-		@Override
-		public List<Trama> tramasDisponibles(){
-			List<Trama> tramas = Arrays.asList(Trama.LISA, Trama.CUADROS, Trama.LUNARES, Trama.LUNARES);
-			return tramas;
-		}
-		
-		@Override
-		public List<Color> coloresPrimariosDisponibles(){
-			List<Color> color = Arrays.asList(new Color("#FF0000"));
-			return color;
-		}
-		
-
-		@Override
-		public List<Color> coloresSecundariosDisponibles() {
-			List<Color> color = Arrays.asList();
-			return color;
-		}
-	};
-
-	Categoria categoria;
+	CAMISA(Categoria.SUPERIOR, Arrays.asList(new Color("#FF0000")), null,
+			Arrays.asList(Material.JEAN, Material.ALGODON),
+			Arrays.asList(Trama.LISA, Trama.CUADROS, Trama.LUNARES, Trama.LUNARES));
 	
+
 	public Categoria getCategoria() {
 		return this.categoria;
 	}
 
-	public abstract List<Color> coloresPrimariosDisponibles();
 	
-	public abstract List<Color> coloresSecundariosDisponibles();
-	
-	public abstract List<Material> materialesDisponibles();
-	
-	public abstract List<Trama> tramasDisponibles();
+	public List<Color> getColoresPrimariosDisponibles() {
+		return coloresPrimariosDisponibles;
+	}
 
-	TipoPrenda(Categoria categoria) {
+	public List<Color> getColoresSecundariosDisponibles() {
+		return coloresSecundariosDisponibles;
+	}
+
+	public List<Material> getMaterialesDisponibles() {
+		return materialesDisponibles;
+	}
+
+	public List<Trama> getTramasDisponibles() {
+		return tramasDisponibles;
+	}
+
+	
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+
+	public void setColoresPrimariosDisponibles(List<Color> coloresPrimariosDisponibles) {
+		this.coloresPrimariosDisponibles = coloresPrimariosDisponibles;
+	}
+
+	public void setColoresSecundariosDisponibles(List<Color> coloresSecundariosDisponibles) {
+		this.coloresSecundariosDisponibles = coloresSecundariosDisponibles;
+	}
+
+	public void setMaterialesDisponibles(List<Material> materialesDisponibles) {
+		this.materialesDisponibles = materialesDisponibles;
+	}
+
+	public void setTramasDisponibles(List<Trama> tramasDisponibles) {
+		this.tramasDisponibles = tramasDisponibles;
+	}
+	
+	
+
+	private TipoPrenda(Categoria categoria, List<Color> coloresPrimariosDisponibles,
+			List<Color> coloresSecundariosDisponibles, List<Material> materialesDisponibles,
+			List<Trama> tramasDisponibles) {
+		this.categoria = categoria;
+		this.coloresPrimariosDisponibles = coloresPrimariosDisponibles;
+		this.coloresSecundariosDisponibles = coloresSecundariosDisponibles;
+		this.materialesDisponibles = materialesDisponibles;
+		this.tramasDisponibles = tramasDisponibles;
+	}
+
+	
+	Categoria categoria;
+	List<Color> coloresPrimariosDisponibles;
+	List<Color> coloresSecundariosDisponibles;
+	List<Material> materialesDisponibles;
+	List<Trama> tramasDisponibles;
 }
+
+
