@@ -4,13 +4,13 @@ import java.util.List;
 public enum TipoPrenda {
 
 	ZAPATO(Categoria.CALZADO, Arrays.asList(new Color("#FF0000"), new Color("#00FF00")), null,
-			Arrays.asList(Material.CUERO), Arrays.asList(Trama.LISA)),
+			Arrays.asList(Material.CUERO), Arrays.asList(Trama.LISA),null),
 
 	CAMISA(Categoria.SUPERIOR, Arrays.asList(new Color("#FF0000")), null,
 			Arrays.asList(Material.JEAN, Material.ALGODON),
-			Arrays.asList(Trama.LISA, Trama.CUADROS, Trama.LUNARES, Trama.LUNARES));
+			Arrays.asList(Trama.LISA, Trama.CUADROS, Trama.LUNARES, Trama.LUNARES),25);
 	
-
+	
 	public Categoria getCategoria() {
 		return this.categoria;
 	}
@@ -30,6 +30,10 @@ public enum TipoPrenda {
 
 	public List<Trama> getTramasDisponibles() {
 		return tramasDisponibles;
+	}
+	
+	public Integer getTempMax() {
+		return tempMax;
 	}
 
 	
@@ -57,12 +61,13 @@ public enum TipoPrenda {
 
 	private TipoPrenda(Categoria categoria, List<Color> coloresPrimariosDisponibles,
 			List<Color> coloresSecundariosDisponibles, List<Material> materialesDisponibles,
-			List<Trama> tramasDisponibles) {
+			List<Trama> tramasDisponibles, Integer tempMax) {
 		this.categoria = categoria;
 		this.coloresPrimariosDisponibles = coloresPrimariosDisponibles;
 		this.coloresSecundariosDisponibles = coloresSecundariosDisponibles;
 		this.materialesDisponibles = materialesDisponibles;
 		this.tramasDisponibles = tramasDisponibles;
+		this.tempMax= tempMax;
 	}
 
 	
@@ -71,6 +76,8 @@ public enum TipoPrenda {
 	List<Color> coloresSecundariosDisponibles;
 	List<Material> materialesDisponibles;
 	List<Trama> tramasDisponibles;
+	Integer tempMax;
+	
 }
 
 

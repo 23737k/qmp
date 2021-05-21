@@ -1,11 +1,16 @@
+import java.util.List;
+import java.util.Map;
 
-public class Borrador {
+import Excepciones.PrendaInvalidaException;
+
+public class BorradorPrenda {	
+	
 	TipoPrenda tipo;
 	Material material;
 	Color colorPrimario;
 	Color colorSecundario;
 	Trama trama;
-
+		
 	public void elegirTipo(TipoPrenda tipo) {
 		validarTipoNonNull(tipo);
 		this.tipo = tipo;
@@ -76,78 +81,6 @@ public class Borrador {
 
 	private Trama defaultTrama() {
 		return Trama.LISA;
-	}
-
-}
-
-class Atuendo {
-
-	Prenda superior;
-	Prenda inferior;
-	Prenda calzado;
-
-	public Atuendo(Prenda superior, Prenda inferior, Prenda calzado) {
-		this.superior = superior;
-		this.inferior = inferior;
-		this.calzado = calzado;
-	}
-
-}
-
-interface BorradorAtuendo {
-
-	public void elegirSuperior();
-
-	public void elegirInferior();
-
-	public void elegirCalzado();
-
-	public Atuendo finalizarAtuendo();
-
-}
-
-class ColegioSanJuan implements BorradorAtuendo {
-
-	Prenda superior;
-	Prenda inferior;
-	Prenda calzado;
-
-	@Override
-	public void elegirSuperior() {
-		Borrador superior = new Borrador();
-		superior.elegirTipo(null);
-		superior.elegirMaterial(null);
-		superior.elegirTrama(null);
-		superior.elegirColorPrimario(null);
-		superior.elegirColorSecundario(null);
-		this.superior = superior.finalizarPrenda();
-	}
-
-	@Override
-	public void elegirInferior() {
-		Borrador inferior = new Borrador();
-		inferior.elegirTipo(null);
-		inferior.elegirMaterial(null);
-		inferior.elegirTrama(null);
-		inferior.elegirColorPrimario(null);
-		inferior.elegirColorSecundario(null);
-		this.inferior = inferior.finalizarPrenda();
-	}
-
-	@Override
-	public void elegirCalzado() {
-		Borrador calzado = new Borrador();
-		calzado.elegirTipo(null);
-		calzado.elegirMaterial(null);
-		calzado.elegirTrama(null);
-		calzado.elegirColorPrimario(null);
-		calzado.elegirColorSecundario(null);
-		this.calzado = calzado.finalizarPrenda();
-	}
-
-	@Override
-	public Atuendo finalizarAtuendo() {
-		return new Atuendo(superior, inferior, calzado);
 	}
 
 }
