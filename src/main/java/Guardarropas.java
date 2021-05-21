@@ -41,6 +41,7 @@ class WeatherChecker{
 
 	private Boolean esApta(Prenda prenda) {
 		return prenda.tipo.getTempMax()>= temperaturaActual();
+		//acá se pueden agregar más criterios, como por ejemplo: estaLloviendo() 
 	}
 
 	
