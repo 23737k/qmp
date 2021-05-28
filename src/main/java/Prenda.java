@@ -16,6 +16,10 @@ public class Prenda {
 			  this.trama=trama;
 	}
 	
+	public Boolean esAptaParaLaTemperatura(double temperatura) {
+		return tipo.getTempMax() >= temperatura;
+	}
+	
 	public Categoria getCategoria(){
 	    return tipo.getCategoria();
 	  }

@@ -1,6 +1,11 @@
 import Excepciones.PrendaInvalidaException;
 
 public class Atuendo {
+	
+	public Prenda superior;
+	public Prenda inferior;
+	public Prenda calzado;
+
 	public Atuendo(Prenda superior, Prenda inferior, Prenda calzado) {
 		verificarCategoria(Categoria.SUPERIOR,superior);
 		this.superior = superior;
@@ -10,11 +15,7 @@ public class Atuendo {
 		this.calzado = calzado;
 	}
 
-	public Prenda superior;
-	public Prenda inferior;
-	public Prenda calzado;
-
-
+		
 	public void verificarCategoria(Categoria categoria, Prenda prenda){
 		if(prenda.getCategoria() != categoria) {
 			throw new PrendaInvalidaException ("prenda de categoria incorrecta");

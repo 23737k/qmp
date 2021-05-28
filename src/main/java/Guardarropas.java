@@ -1,69 +1,113 @@
-import java.time.Duration;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
-public class Guardarropas {
+import Excepciones.SugerenciaException;
+
+public interface Guardarropas {	
+}
+
+class GuardarropasPublico implements Guardarropas{
 	
-	public Guardarropas(List<Prenda> prendasDisponibles, WeatherChecker checker) {
+	private List<Prenda> prendasDisponibles= new ArrayList<Prenda>();	
+	private CategoriaGuardarropa categoria;
+	private List<Sugerencia> suggestions;
+	private Stack<Sugerencia> doneSuggestions;
+	
+	
+	public GuardarropasPublico(List<Prenda> prendasDisponibles, CategoriaGuardarropa categoria) {
 		this.prendasDisponibles = prendasDisponibles;
-		this.checker = checker;
+		this.categoria = categoria;
+		this.suggestions = new ArrayList<Sugerencia>();
+		this.doneSuggestions = new Stack<Sugerencia>();
 	}
 
-	private List <Prenda> prendasDisponibles;
-	private WeatherChecker checker;
-
-	public List<Atuendo> Sugerencias(){
-		return new GeneradorDeSugerencias().generarSugerencias(checker.prendasAptas(this.prendasDisponibles));  
+	public void sugerirAgregar(Prenda prenda) {
+		this.suggestions.add(new SugerirAgregar(prenda));
 	}
+	
+	public void sugerirQuitar(Prenda prenda) {
+		this.suggestions.add(new SugerirQuitar(prenda));
+	}
+	
+	
+	public List<Prenda> getPrendasDeCategoria(Categoria categoria){
+		return this.prendasDisponibles.stream().
+				filter(prenda -> prenda.tipo.getCategoria().equals(categoria)).
+				collect(Collectors.toList());
+	}
+	
+	
+	public List<Sugerencia>  getSuggestions() {
+		return this.suggestions;
+	}
+	
+	
+	public void aceptarSugerencia(Sugerencia sugerencia) {
+		if(!(suggestions.contains(sugerencia))) {
+			throw new SugerenciaException("La sugerencia no existe en este guardarropas");
+		}
+		this.prendasDisponibles= sugerencia.hacer(this.prendasDisponibles);
+		this.suggestions.remove(sugerencia);
+		this.doneSuggestions.push(sugerencia);
+	}
+	
+	
+	public void rechazarSugerencia(Sugerencia sugerencia) {
+		if(!(suggestions.contains(sugerencia))) {
+			throw new SugerenciaException("La sugerencia no existe en este guardarropas");
+		}
+		this.suggestions.remove(sugerencia);
+	}
+	
+	
+	public void deshacerUltimaSugerencia() {
+		if(this.doneSuggestions.empty()) {
+			throw new SugerenciaException("No hay mas sugerencias por deshacer");
+		}
+		
+		this.prendasDisponibles= this.doneSuggestions.pop().deshacer(this.prendasDisponibles);
+	}
+
+	public CategoriaGuardarropa getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriaGuardarropa categoria) {
+		this.categoria = categoria;
+	}
+	
 	
 }
 
 
-
-
-class WeatherChecker{
+class GuardarropasPrivado implements Guardarropas{
+	private List<Prenda> prendasDisponibles= new ArrayList<Prenda>();	
+	private CategoriaGuardarropa categoria;
 	
-	
-	public WeatherChecker(Ciudad ciudad) {
-		this.ciudad= ciudad;
-		this.condicionesClimaticasActuales= server.getWeather(ciudad.getNombre());
-	}
-	
-	private Ciudad ciudad;
-	private List<Map<String, Object>> condicionesClimaticasActuales;
-	private WeatherServer server= new AccuWeatherAPI();
-	
-	public List<Prenda> prendasAptas(List<Prenda> prendas) {
-		return prendas.stream().filter(prenda -> esApta(prenda)).collect(Collectors.toList());
+	public GuardarropasPrivado(List<Prenda> prendasDisponibles, CategoriaGuardarropa categoria) {
+		this.prendasDisponibles = prendasDisponibles;
+		this.categoria = categoria;
 	}
 
-	private Boolean esApta(Prenda prenda) {
-		return temperaturaApta(prenda);
-		//acá se pueden agregar más criterios, como por ejemplo: estaLloviendo(), ocasión(formal)
+	public List<Prenda> getPrendasDisponibles() {
+		return prendasDisponibles;
 	}
 
-	private boolean temperaturaApta(Prenda prenda) {
-		return prenda.tipo.getTempMax()>= temperaturaActual();
+	public CategoriaGuardarropa getCategoria() {
+		return categoria;
 	}
 
-	
-	private Integer temperaturaActual() {
-		actualizarTiempo();
-		return (Integer) condicionesClimaticasActuales.get(0).get("Temperature");
+	public void setCategoria(CategoriaGuardarropa categoria) {
+		this.categoria = categoria;
 	}
-	
-	
-	public void actualizarTiempo(){
-		 LocalDateTime now = LocalDateTime.now();
-		 LocalDateTime before = (LocalDateTime) condicionesClimaticasActuales.get(0).get("DateTime");
-		 Duration duration= Duration.between(now, before);
-		 long horas= Math.abs(duration.getSeconds()) /3600;
-		 if (horas>= 12) {
-			 this.condicionesClimaticasActuales= server.getWeather(this.ciudad.getNombre()); 
-		 }			
-	 }
-	
 	
 }
+	
+	
+
+	
+
+	
+	
