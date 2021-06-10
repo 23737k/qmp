@@ -2,28 +2,19 @@ import java.util.List;
 
 import Excepciones.SugerenciaException;
 
-public abstract class Sugerencia {
-
-	protected Prenda prenda;
-	
-	public Prenda getPrenda() {
-		return prenda;
-	}
-
-	public void setPrenda(Prenda prenda) {
-		this.prenda = prenda;
-	}
-
+public interface Sugerencia {
+  
 	public abstract List<Prenda> hacer(List<Prenda> prendas);
 	public abstract List<Prenda> deshacer(List<Prenda> prendas);
 }
 
 
 
-class SugerirAgregar extends Sugerencia{
-	
+class Agregar implements Sugerencia{
+  
+  private Prenda prenda;
 
-	public SugerirAgregar(Prenda prenda) {
+	public Agregar(Prenda prenda) {
 		this.prenda= prenda;
 	}
 	
@@ -50,10 +41,12 @@ class SugerirAgregar extends Sugerencia{
 		
 }
 
-class SugerirQuitar extends Sugerencia{
+class Quitar implements Sugerencia{
 	
+  private Prenda prenda;
+
 	
-	public SugerirQuitar(Prenda prenda) {
+	public Quitar(Prenda prenda) {
 		this.prenda= prenda;
 	}
 	

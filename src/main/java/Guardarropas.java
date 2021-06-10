@@ -24,11 +24,11 @@ class GuardarropasPublico implements Guardarropas{
 	}
 
 	public void sugerirAgregar(Prenda prenda) {
-		this.suggestions.add(new SugerirAgregar(prenda));
+		this.suggestions.add(new Agregar(prenda));
 	}
 	
 	public void sugerirQuitar(Prenda prenda) {
-		this.suggestions.add(new SugerirQuitar(prenda));
+		this.suggestions.add(new Quitar(prenda));
 	}
 	
 	
