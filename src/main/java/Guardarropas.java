@@ -3,13 +3,18 @@ import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
+import Excepciones.PrendaInvalidaException;
 import Excepciones.SugerenciaException;
 
-public interface Guardarropas {	
+public interface Guardarropas {
+
+  public void agregar(Prenda prenda);	
+  
+  public void quitar(Prenda prenda);
 }
 
 class GuardarropasPublico implements Guardarropas{
-	
+  
 	private List<Prenda> prendasDisponibles= new ArrayList<Prenda>();	
 	private CategoriaGuardarropa categoria;
 	private List<Sugerencia> suggestions;
@@ -31,6 +36,20 @@ class GuardarropasPublico implements Guardarropas{
 		this.suggestions.add(new Quitar(prenda));
 	}
 	
+	public void agregar(Prenda prenda) {
+	  if(this.prendasDisponibles.contains(prenda)) {
+      throw new PrendaInvalidaException("La prenda indicada en la sugerencia ya existe en el guardarropas");
+    }
+	  this.prendasDisponibles.add(prenda);
+	}
+	
+	public void quitar(Prenda prenda) {
+	  if(!(this.prendasDisponibles.contains(prenda))) {
+      throw new PrendaInvalidaException("La prenda indicada en la sugerencia no existe en el guardarropas");
+    }
+    this.prendasDisponibles.remove(prenda);
+  }
+	
 	
 	public List<Prenda> getPrendasDeCategoria(Categoria categoria){
 		return this.prendasDisponibles.stream().
@@ -45,19 +64,13 @@ class GuardarropasPublico implements Guardarropas{
 	
 	
 	public void aceptarSugerencia(Sugerencia sugerencia) {
-		if(!(suggestions.contains(sugerencia))) {
-			throw new SugerenciaException("La sugerencia no existe en este guardarropas");
-		}
-		this.prendasDisponibles= sugerencia.hacer(this.prendasDisponibles);
+		sugerencia.hacer(this);
 		this.suggestions.remove(sugerencia);
 		this.doneSuggestions.push(sugerencia);
 	}
 	
 	
 	public void rechazarSugerencia(Sugerencia sugerencia) {
-		if(!(suggestions.contains(sugerencia))) {
-			throw new SugerenciaException("La sugerencia no existe en este guardarropas");
-		}
 		this.suggestions.remove(sugerencia);
 	}
 	
@@ -67,7 +80,7 @@ class GuardarropasPublico implements Guardarropas{
 			throw new SugerenciaException("No hay mas sugerencias por deshacer");
 		}
 		
-		this.prendasDisponibles= this.doneSuggestions.pop().deshacer(this.prendasDisponibles);
+		this.doneSuggestions.pop().deshacer(this);
 	}
 
 	public CategoriaGuardarropa getCategoria() {
@@ -77,35 +90,11 @@ class GuardarropasPublico implements Guardarropas{
 	public void setCategoria(CategoriaGuardarropa categoria) {
 		this.categoria = categoria;
 	}
+
 	
 	
 }
 
-
-class GuardarropasPrivado implements Guardarropas{
-	private List<Prenda> prendasDisponibles= new ArrayList<Prenda>();	
-	private CategoriaGuardarropa categoria;
-	
-	public GuardarropasPrivado(List<Prenda> prendasDisponibles, CategoriaGuardarropa categoria) {
-		this.prendasDisponibles = prendasDisponibles;
-		this.categoria = categoria;
-	}
-
-	public List<Prenda> getPrendasDisponibles() {
-		return prendasDisponibles;
-	}
-
-	public CategoriaGuardarropa getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(CategoriaGuardarropa categoria) {
-		this.categoria = categoria;
-	}
-	
-}
-	
-	
 
 	
 

@@ -1,11 +1,9 @@
-import java.util.List;
-
-import Excepciones.SugerenciaException;
 
 public interface Sugerencia {
   
-	public abstract List<Prenda> hacer(List<Prenda> prendas);
-	public abstract List<Prenda> deshacer(List<Prenda> prendas);
+	public abstract void hacer(Guardarropas guardarropas);
+	public abstract void deshacer(Guardarropas guardarropas);
+  public abstract Prenda getPrenda();
 }
 
 
@@ -19,25 +17,19 @@ class Agregar implements Sugerencia{
 	}
 	
 	
-	public List<Prenda> hacer(List<Prenda> prendas) {
-		
-		if(prendas.contains(this.prenda)) {
-			throw new SugerenciaException("El guardarropas ya contiene esta prenda");
-		}
-
-		List<Prenda> newList= prendas;
-		newList.add(this.prenda);
-		return newList;
+	public void hacer(Guardarropas guardarropas) {
+	  guardarropas.agregar(this.prenda);
 	}
 	
-	public List<Prenda> deshacer(List<Prenda> prendas) {
-		if(!prendas.contains(this.prenda)) {
-			throw new SugerenciaException("No se puede realizar la accion. La prenda ya no existe");
-		}
-		List<Prenda> newList= prendas;
-		newList.remove(this.prenda);
-		return newList;
+	public void deshacer(Guardarropas guardarropas) {
+		guardarropas.quitar(this.prenda);
 	}
+
+
+  @Override
+  public Prenda getPrenda() {
+   return this.prenda;
+  }
 		
 }
 
@@ -50,24 +42,18 @@ class Quitar implements Sugerencia{
 		this.prenda= prenda;
 	}
 	
-	public List<Prenda> hacer(List<Prenda> prendas) {
-		if(!prendas.contains(this.prenda)) {
-			throw new SugerenciaException("Esta prenda no existe en el guardarropas");
-		}
-		
-		List<Prenda> newList= prendas;
-		newList.remove(this.prenda);
-		return newList;
+	public void hacer(Guardarropas guardarropas) {
+		guardarropas.quitar(this.prenda);
 	}
 	
-	public List<Prenda> deshacer(List<Prenda> prendas) {
-		if(prendas.contains(this.prenda)) {
-			throw new SugerenciaException("No se puede realizar la accion. La prenda ya existe");
-		}
-		List<Prenda> newList= prendas;
-		newList.add(this.prenda);
-		return newList;
+	public void deshacer(Guardarropas guardarropas) {
+		guardarropas.agregar(this.prenda);
 	}
+
+  @Override
+  public Prenda getPrenda() {
+   return this.prenda;
+  }
 	
 	
 }

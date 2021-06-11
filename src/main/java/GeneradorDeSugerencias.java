@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Map;
 
 public class GeneradorDeSugerencias{
 		
@@ -6,6 +7,11 @@ public class GeneradorDeSugerencias{
 		return null;
 	    //TODO completar implementacion
 	  }	
+	public Atuendo generarSugerenciaDiaria(Map<String, Object> tiempo) {
+	  return null;
+	  // TODO completar implementacion	  
+	}
+	
 }
 
 
